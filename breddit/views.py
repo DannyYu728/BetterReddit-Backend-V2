@@ -11,9 +11,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.views import APIView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
-from django.contrib import messages
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -175,29 +172,6 @@ class FavoriteView(APIView):
             return Response({'detail': 'User unfavorited the post'}, status=status.HTTP_204_NO_CONTENT)
         return Response({'detail': self.bad_request_message}, status=status.HTTP_400_BAD_REQUEST)
 
-class ProfileUpdateView(LoginRequiredMixin):
-    profile_form = ProfileForm
-
-    def post(self, request):
-
-        post_data = request.POST or None
-        file_data = request.FILES or None
-
-        profile_form = ProfileForm(post_data, file_data, instance=request.user)
-
-        if profile_form.is_valid():
-            profile_form.save()
-            messages.error(request, 'Your profile is updated successfully!')
-            return HttpResponseRedirect(reverse_lazy('profile'))
-
-        context = self.get_context_data(
-                                        profile_form=profile_form
-                                    )
-
-        return self.render_to_response(context)     
-
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
 
 
 
