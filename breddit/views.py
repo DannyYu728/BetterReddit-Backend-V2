@@ -11,9 +11,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.views import APIView
-# from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
-# from rest_framework.decorators import api_view, permission_classes
-# import os
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -146,22 +146,15 @@ class ChangePasswordView(generics.UpdateAPIView):
 class LikedPostView(APIView):
     bad_request_message = 'An error has occurred'
 
-    def post(self, request):
+    def patch(self, request):
         post = get_object_or_404(Post, id=request.data.get('id'))
         if request.user not in post.likes.all():
             post.likes.add(request.user)
             return Response({'detail': 'User liked the post'}, status=status.HTTP_200_OK)
-        else:
+        elif request.user in post.likes.all():
             post.likes.remove(request.user)
             return Response({'detail': 'User unliked the post'}, status=status.HTTP_204_NO_CONTENT)       
-    #     return Response({'detail': self.bad_request_message}, status=status.HTTP_400_BAD_REQUEST)
-
-    # def delete(self, request):
-    #     post = get_object_or_404(Post, id=request.data.get('id'))
-    #     if request.user in post.likes.all():
-    #         post.likes.remove(request.user)
-    #         return Response({'detail': 'User unliked the post'}, status=status.HTTP_204_NO_CONTENT)
-    #     return Response({'detail': self.bad_request_message}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'detail': self.bad_request_message}, status=status.HTTP_400_BAD_REQUEST)
 
 class FavoriteView(APIView):
     bad_request_message = 'An error has occurred'
@@ -182,29 +175,29 @@ class FavoriteView(APIView):
             return Response({'detail': 'User unfavorited the post'}, status=status.HTTP_204_NO_CONTENT)
         return Response({'detail': self.bad_request_message}, status=status.HTTP_400_BAD_REQUEST)
 
-# class UpdateView(APIView):  
-#     bad_request_message = 'An error has occurred'
-  
-#     def post(self, request):
-#         user = request.user
-#         form = ImageForm(request.POST, request.FILES, instance=user)
-#         if form.is_valid():
-#           avatar = user.avatar.path
-#           if os.path.exists(avatar):
-#               os.remove(avatar)
-#           form.save()
-#         return Response({'detail': "okie"})
+class ProfileUpdateView(LoginRequiredMixin):
+    profile_form = ProfileForm
 
+    def post(self, request):
 
-# @ensure_csrf_cookie
-# def edit(request):
-#     if request.method == "POST":
-#         user = request.user
-#         form = ImageForm(request.POST, request.FILES, instance=user)
-#         if form.is_valid():
-#             form.save()
-#         return Response({'detail': "okie"})
-#     else:
-#       return Response({'detail': "NOPE"})
+        post_data = request.POST or None
+        file_data = request.FILES or None
+
+        profile_form = ProfileForm(post_data, file_data, instance=request.user)
+
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.error(request, 'Your profile is updated successfully!')
+            return HttpResponseRedirect(reverse_lazy('profile'))
+
+        context = self.get_context_data(
+                                        profile_form=profile_form
+                                    )
+
+        return self.render_to_response(context)     
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
 
 
