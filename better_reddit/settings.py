@@ -30,6 +30,8 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = ['https://dy-breddit.netlify.app', 'https://web-production-8975.up.railway.app']
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -181,4 +183,3 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
-CSRF_TRUSTED_ORIGINS = ['https://dy-breddit.netlify.app', 'https://web-production-8975.up.railway.app' ]
