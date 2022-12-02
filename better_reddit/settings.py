@@ -26,13 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-
-CSRF_TRUSTED_ORIGINS = ['https://web-production-8975.up.railway.app', 
-                        'http://localhost:3000', 'profile-update/', 
-                        'http://localhost:3000/profile-update/', 'http://localhost:3000/profile-update' ]
 
 # Application definition
 
@@ -79,6 +75,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://betterreddit-backend-production.up.railway.app',
     'https://web-production-8975.up.railway.app',
     "https://breddit.netlify.app",
+    'https://dy-breddit.netlify.app',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -183,3 +180,5 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
+
+CSRF_TRUSTED_ORIGINS = ['https://dy-breddit.netlify.app', 'https://web-production-8975.up.railway.app' ]
