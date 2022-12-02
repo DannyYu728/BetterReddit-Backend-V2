@@ -30,7 +30,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://dy-breddit.netlify.app', 'https://web-production-8975.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://dy-breddit.netlify.app', 'https://dy-reddit-v2.up.railway.app']
 
 # Application definition
 
@@ -74,9 +74,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:8000",
-    'https://betterreddit-backend-production.up.railway.app',
-    'https://web-production-8975.up.railway.app',
-    "https://breddit.netlify.app",
+    'https://dy-reddit-v2.up.railway.app',
     'https://dy-breddit.netlify.app',
 ]
 
