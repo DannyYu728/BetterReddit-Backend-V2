@@ -30,7 +30,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://web-production-8975.up.railway.app', 'http://localhost:3000']
+CSRF_TRUSTED_ORIGINS = ['https://web-production-8975.up.railway.app', 
+                        'http://localhost:3000', 'profile-update/', 
+                        'http://localhost:3000/profile-update/', 'http://localhost:3000/profile-update' ]
 
 # Application definition
 
