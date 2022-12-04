@@ -10,7 +10,7 @@ class Post(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
   link = models.URLField(default='https://www.google.com/', blank=True)
-  thumbnail = models.ImageField(upload_to='', default='oven.png')
+  image = models.ImageField(upload_to='images', blank=True)
   likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
 
   def get_image(self):
@@ -27,6 +27,7 @@ class Comment(models.Model):
   post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='op')
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
+  image = models.ImageField(upload_to='images', blank=True)
   likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_likes', blank=True)
   
   def __str__(self):
@@ -53,14 +54,12 @@ class UserManager(BaseUserManager):
     return user
     
 class User(AbstractUser, PermissionsMixin):
-  avatar = models.ImageField(upload_to='', default='default.png')
-  banner = models.ImageField(upload_to='', default='banner.jpg')
+  avatar = models.ImageField(upload_to='avatars', blank=True)
+  banner = models.ImageField(upload_to='banners', blank=True)
   is_active = models.BooleanField(default=True)
   is_staff = models.BooleanField(default=False)
   updated_at = models.DateTimeField(auto_now=True)
   favorites = models.ManyToManyField(Post, related_name='favorited', blank=True)
-  
-  objects = UserManager()
   
   def get_image(self):
     if not self.avatar:
@@ -71,6 +70,8 @@ class User(AbstractUser, PermissionsMixin):
     if not self.banner:
       return f'{settings.STATIC_URL}banner.jpg'
     return self.banner
+  
+  objects = UserManager()
   
   def __str__(self):
     return self.username
