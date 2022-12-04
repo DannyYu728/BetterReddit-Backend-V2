@@ -11,6 +11,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.views import APIView
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -147,14 +149,15 @@ class LikedPostView(APIView):
             return Response({'detail': 'User liked the post'}, status=status.HTTP_200_OK)
 
 class UnLikedPostView(APIView):
-    bad_request_message = 'An error has occurred'
 
-    def patch(self, request):
-        post = get_object_or_404(Post, id=request.data.get('id'))
-        user = request.user
-        if user in post.likes.all():
-            post.likes.remove(user)
-            return Response({'detail': 'User unliked the post'}, status=status.HTTP_204_NO_CONTENT)       
+    def post(self, request):
+        post = get_object_or_404(Post, id=request.PdataOST.get('id'))
+        if post.likes.filter(id=request.user.id).exists():
+          post.likes.remove(request.user)
+        else:
+          post.likes.add(request.user)
+
+        return HttpResponseRedirect(reverse('blogpost-detail', args=[str(id)]))  
 
 class FavoriteView(APIView):
     bad_request_message = 'An error has occurred'
