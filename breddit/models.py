@@ -14,9 +14,9 @@ class Post(models.Model):
   likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
 
   def get_image(self):
-    if not self.thumbnail:
-      return f'{settings.STATIC_URL}default.png'
-    return self.thumbnail
+    if not self.image:
+      return f'{settings.STATIC_URL}oven.png'
+    return self.image
     
   def __str__(self):
     return self.title
@@ -61,6 +61,8 @@ class User(AbstractUser, PermissionsMixin):
   updated_at = models.DateTimeField(auto_now=True)
   favorites = models.ManyToManyField(Post, related_name='favorited', blank=True)
   
+  objects = UserManager()
+  
   def get_image(self):
     if not self.avatar:
       return f'{settings.STATIC_URL}default.png'
@@ -70,9 +72,7 @@ class User(AbstractUser, PermissionsMixin):
     if not self.banner:
       return f'{settings.STATIC_URL}banner.jpg'
     return self.banner
-  
-  objects = UserManager()
-  
+   
   def __str__(self):
     return self.username
 
