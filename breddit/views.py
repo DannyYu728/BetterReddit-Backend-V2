@@ -141,17 +141,19 @@ class LikedPostView(APIView):
 
     def patch(self, request):
         post = get_object_or_404(Post, id=request.data.get('id'))
-        if request.user not in post.likes.all():
-            post.likes.add(request.user)
+        user = request.user
+        if user not in post.likes.all():
+            post.likes.add(user)
             return Response({'detail': 'User liked the post'}, status=status.HTTP_200_OK)
 
 class UnLikedPostView(APIView):
     bad_request_message = 'An error has occurred'
 
-    def patch(self, request):
+    def delete(self, request):
         post = get_object_or_404(Post, id=request.data.get('id'))
-        if request.user in post.likes.all():
-            post.likes.remove(request.user)
+        user = request.user
+        if user in post.likes.all():
+            post.likes.remove(user)
             return Response({'detail': 'User unliked the post'}, status=status.HTTP_204_NO_CONTENT)       
 
 class FavoriteView(APIView):

@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
     path('api/', include(('breddit.routers', 'breddit'), namespace='breddit-api')),
-    path('api/UnlikePost/', UnLikedPostView.as_view()),
+    path('api/unlikePost/', UnLikedPostView.as_view()),
     path('api/likePost/', LikedPostView.as_view()),
     path('api/favorite/', FavoriteView.as_view()),
     path('api/auth/changePw/', ChangePasswordView.as_view(), name='changePw'),    
