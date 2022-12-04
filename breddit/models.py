@@ -16,7 +16,7 @@ class Post(models.Model):
   def get_image(self):
     if not self.image:
       return f'{settings.STATIC_URL}oven.png'
-    return self.image
+    return self.image.url
     
   def __str__(self):
     return self.title
@@ -66,12 +66,12 @@ class User(AbstractUser, PermissionsMixin):
   def get_image(self):
     if not self.avatar:
       return f'{settings.STATIC_URL}default.png'
-    return self.avatar
+    return self.avatar.url
 
   def get_image(self):
     if not self.banner:
       return f'{settings.STATIC_URL}banner.jpg'
-    return self.banner
+    return self.banner.url
    
   def __str__(self):
     return self.username
