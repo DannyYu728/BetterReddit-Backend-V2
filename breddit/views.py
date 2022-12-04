@@ -151,7 +151,7 @@ class LikedPostView(APIView):
 class UnLikedPostView(APIView):
 
     def post(self, request):
-        post = get_object_or_404(Post, id=request.PdataOST.get('id'))
+        post = get_object_or_404(Post, id=request.data.get('id'))
         if post.likes.filter(id=request.user.id).exists():
           post.likes.remove(request.user)
         else:
