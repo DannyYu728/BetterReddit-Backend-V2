@@ -15,7 +15,8 @@ class Post(models.Model):
 
   def get_image(self):
     if not self.image:
-      self.image = f'{settings.STATIC_URL}oven.png'  
+      self.image.url = f'{settings.STATIC_URL}oven.png'  
+      return self.image
     return self.image.url
     
   def __str__(self):
