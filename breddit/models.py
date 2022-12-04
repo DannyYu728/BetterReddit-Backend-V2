@@ -10,12 +10,12 @@ class Post(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
   link = models.URLField(default='https://www.google.com/', blank=True)
-  image = models.ImageField(default="/static/oven.png")
+  image = models.ImageField(blank=True)
   likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
 
   def get_image(self):
     if not self.image:
-        return f'{settings.STATIC_URL}oven.png'
+      self.image = f'{settings.STATIC_URL}oven.png'  
     return self.image.url
     
   def __str__(self):
