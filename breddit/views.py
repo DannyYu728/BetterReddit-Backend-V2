@@ -149,7 +149,7 @@ class LikedPostView(APIView):
 class UnLikedPostView(APIView):
     bad_request_message = 'An error has occurred'
 
-    def delete(self, request):
+    def patch(self, request):
         post = get_object_or_404(Post, id=request.data.get('id'))
         user = request.user
         if user in post.likes.all():
