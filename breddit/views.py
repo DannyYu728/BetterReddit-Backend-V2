@@ -149,6 +149,16 @@ class LikedPostView(APIView):
             return Response({'detail': 'User unliked the post'}, status=status.HTTP_204_NO_CONTENT)       
         return Response({'detail': self.bad_request_message}, status=status.HTTP_400_BAD_REQUEST)
 
+class UnLikedPostView(APIView):
+    bad_request_message = 'An error has occurred'
+
+    def patch(self, request):
+        post = get_object_or_404(Post, id=request.data.get('id'))
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+            return Response({'detail': 'User unliked the post'}, status=status.HTTP_204_NO_CONTENT)       
+        return Response({'detail': self.bad_request_message}, status=status.HTTP_400_BAD_REQUEST)
+
 class FavoriteView(APIView):
     bad_request_message = 'An error has occurred'
 
