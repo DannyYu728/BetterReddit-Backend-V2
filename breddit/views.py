@@ -153,7 +153,7 @@ class UnLikedPostView(APIView):
 
     def patch(self, request):
       post = get_object_or_404(Post, id=request.data.get('id'))
-      user = request.user
+      user = request.user.id
       if  user in post.likes.all():
           post.likes.remove(user)
           print("INFO")
