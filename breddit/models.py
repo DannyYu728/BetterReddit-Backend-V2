@@ -10,7 +10,7 @@ class Post(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
   link = models.URLField(default='https://www.google.com/', blank=True)
-  thumbnail = models.ImageField(upload_to='thumbnails', default='oven.png')
+  thumbnail = models.ImageField(upload_to='', default='oven.png')
   likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
   
   def __str__(self):
@@ -48,8 +48,8 @@ class UserManager(BaseUserManager):
     return user
     
 class User(AbstractUser, PermissionsMixin):
-  avatar = models.ImageField(upload_to='avatars', default='default.png')
-  banner = models.ImageField(upload_to='banners', default='banner.jpg')
+  avatar = models.ImageField(upload_to='', default='default.png')
+  banner = models.ImageField(upload_to='', default='banner.jpg')
   is_active = models.BooleanField(default=True)
   is_staff = models.BooleanField(default=False)
   updated_at = models.DateTimeField(auto_now=True)

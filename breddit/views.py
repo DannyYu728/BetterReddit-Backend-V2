@@ -41,10 +41,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,]
     filter_backends = [filters.OrderingFilter]
-
-    # def get_queryset(self):
-    #     if self.request.user.is_superuser:
-    #         return User.objects.all()
     
     def get_queryset(self):
         if self.request.user:
@@ -143,7 +139,7 @@ class ChangePasswordView(generics.UpdateAPIView):
 class LikedPostView(APIView):
     bad_request_message = 'An error has occurred'
 
-    def patch(self, request):
+    def put(self, request):
         post = get_object_or_404(Post, id=request.data.get('id'))
         if request.user not in post.likes.all():
             post.likes.add(request.user)

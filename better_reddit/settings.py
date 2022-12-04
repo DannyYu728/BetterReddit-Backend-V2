@@ -30,7 +30,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://dy-breddit.netlify.app', 'https://dy-reddit-v2.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'https://dy-breddit.netlify.app', 'https://dy-reddit-v2.up.railway.app']
 
 # Application definition
 
@@ -78,7 +78,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://dy-breddit.netlify.app',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
 ROOT_URLCONF = 'better_reddit.urls'
 
@@ -156,6 +156,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = 'static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
