@@ -12,7 +12,12 @@ class Post(models.Model):
   link = models.URLField(default='https://www.google.com/', blank=True)
   thumbnail = models.ImageField(upload_to='', default='oven.png')
   likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
-  
+
+  def get_image(self):
+    if not self.thumbnail:
+      return f'{settings.STATIC_URL}default.png'
+    return self.thumbnail
+    
   def __str__(self):
     return self.title
   
@@ -56,6 +61,16 @@ class User(AbstractUser, PermissionsMixin):
   favorites = models.ManyToManyField(Post, related_name='favorited', blank=True)
   
   objects = UserManager()
+  
+  def get_image(self):
+    if not self.avatar:
+      return f'{settings.STATIC_URL}default.png'
+    return self.avatar
+
+  def get_image(self):
+    if not self.banner:
+      return f'{settings.STATIC_URL}banner.jpg'
+    return self.banner
   
   def __str__(self):
     return self.username
