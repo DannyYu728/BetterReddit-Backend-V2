@@ -153,11 +153,11 @@ class UnLikedPostView(APIView):
 
     def patch(self, request):
       post = get_object_or_404(Post, id=request.data.get('id'))
-      user = request.user.id
+      user = request.user
       if  user in post.likes.all():
           post.likes.remove(user)
           print("INFO")
-          print(user)
+          print(user.id)
           print(post)
           return Response({'detail': 'User unliked the post'}, status=status.HTTP_204_NO_CONTENT)
       return Response({'detail': self.bad_request_message}, status=status.HTTP_400_BAD_REQUEST)
