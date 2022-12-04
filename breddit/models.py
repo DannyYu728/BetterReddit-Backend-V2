@@ -14,7 +14,7 @@ class Post(models.Model):
   likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
 
   def get_image(self):
-    return self.avatar if self.avatar else "https://dy-reddit-v2.up.railway.app/static/oven.png"
+    return self.image if self.image else "https://dy-reddit-v2.up.railway.app/static/oven.png"
     
   def __str__(self):
     return self.title
