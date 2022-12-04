@@ -139,7 +139,7 @@ class ChangePasswordView(generics.UpdateAPIView):
 class LikedPostView(APIView):
     bad_request_message = 'An error has occurred'
 
-    def put(self, request):
+    def patch(self, request):
         post = get_object_or_404(Post, id=request.data.get('id'))
         if request.user not in post.likes.all():
             post.likes.add(request.user)
