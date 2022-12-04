@@ -10,11 +10,8 @@ class Post(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
   link = models.URLField(default='https://www.google.com/', blank=True)
-  image = models.ImageField(blank=True, null=True)
+  image = models.ImageField(upload_to='imgs', blank=True)
   likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
-
-  def get_image(self):
-    return self.image if self.image else "https://dy-reddit-v2.up.railway.app/static/oven.png"
     
   def __str__(self):
     return self.title
@@ -60,16 +57,6 @@ class User(AbstractUser, PermissionsMixin):
   favorites = models.ManyToManyField(Post, related_name='favorited', blank=True)
   
   objects = UserManager()
-  
-  def get_image(self):
-    if not self.avatar:
-      return f'{settings.STATIC_URL}default.png'
-    return self.avatar.url
-
-  def get_image(self):
-    if not self.banner:
-      return f'{settings.STATIC_URL}banner.jpg'
-    return self.banner.url
    
   def __str__(self):
     return self.username
