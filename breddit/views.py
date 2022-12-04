@@ -157,7 +157,7 @@ class UnLikedPostView(APIView):
         else:
             post.likes.add(request.user)
 
-        return HttpResponseRedirect(reverse('blogpost-detail', args=[str(id)]))  
+        return HttpResponseRedirect(reverse('blogpost-detail'))  
 
 class FavoriteView(APIView):
     bad_request_message = 'An error has occurred'
