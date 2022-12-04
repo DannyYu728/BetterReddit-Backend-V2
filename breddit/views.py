@@ -150,12 +150,12 @@ class LikedPostView(APIView):
 
 class UnLikedPostView(APIView):
 
-    def post(self, request):
+    def patch(self, request):
         post = get_object_or_404(Post, id=request.data.get('id'))
         if post.likes.filter(id=request.user.id).exists():
-          post.likes.remove(request.user)
+            post.likes.remove(request.user)
         else:
-          post.likes.add(request.user)
+            post.likes.add(request.user)
 
         return HttpResponseRedirect(reverse('blogpost-detail', args=[str(id)]))  
 
