@@ -17,7 +17,6 @@ class Post(models.Model):
     if not self.image:
       self.image.url = f'{settings.STATIC_URL}oven.png'  
       return self.image
-    return self.image.url
     
   def __str__(self):
     return self.title
