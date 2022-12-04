@@ -10,7 +10,7 @@ class Post(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
   link = models.URLField(default='https://www.google.com/', blank=True)
-  image = models.ImageField(blank=True)
+  image = models.ImageField(default="/static/oven.png")
   likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes', blank=True)
 
   def get_image(self):
