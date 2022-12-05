@@ -80,7 +80,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://dy-breddit.netlify.app',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'better_reddit.urls'
 
